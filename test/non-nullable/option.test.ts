@@ -1,12 +1,11 @@
 import { createNone, createSome, isNone, isSome, optionConversion } from "../../src/option";
-import { assert, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 describe("option", () => {
     it("createSome で作った値は Some型になる", () => {
         const some = createSome("value");
 
-        expect(some.kind).toBe("some");
-        assert(some.kind === "some");
+        expect.assert(some.kind === "some");
         expect(some.value).toBe("value");
     });
 
@@ -18,31 +17,29 @@ describe("option", () => {
 
     it("isSome は some でない場合 false を返す", () => {
         const none = createNone<never>();
-        expect(isSome(none)).toBeFalsy();
+        expect(isSome(none)).toBe(false);
     });
 
     it("isNone は none でない場合 false を返す", () => {
         const none = createNone<never>();
-        expect(isNone(none)).toBeTruthy();
+        expect(isNone(none)).toBe(true);
     });
 
     it("isSomeでsomeの場合はtrueが返ってくる", () => {
         const some = createSome("value");
 
-        expect(isSome(some)).toBeTruthy();
+        expect(isSome(some)).toBe(true);
     });
 
     it("isSomeでnoneの場合にはfalseが返ってくる", () => {
         const some = createSome("value");
 
-        expect(isNone(some)).toBeFalsy();
+        expect(isNone(some)).toBe(false);
     });
 
     it("string型を与えたらSome型が返ってくる", () => {
         const result = optionConversion("string");
-
-        expect(isSome(result)).toBeTruthy();
-        assert(isSome(result));
+        expect.assert(isSome(result));
 
         expect(result.value).toBe("string");
     });
@@ -50,12 +47,12 @@ describe("option", () => {
     it("nullを渡したらNone型が返ってくる", () => {
         const result = optionConversion(null);
 
-        expect(isNone(result)).toBeTruthy();
+        expect(isNone(result)).toBe(true);
     });
 
     it("undefinedを渡したらNone型が返ってくる", () => {
         const result = optionConversion(undefined);
 
-        expect(isNone(result)).toBeTruthy();
+        expect(isNone(result)).toBe(true);
     });
 });
